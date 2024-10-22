@@ -1,0 +1,44 @@
+workflows:
+  android_workflow:
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+    environment:
+      java: "17.0.11"
+    name: "Android Workflow for Angular Capacitor"
+    scripts:
+      - name: "Install dependencies"
+        script: |
+          npm install -g @angular/cli
+          npm install
+          npm ci
+          npm install -g @capacitor/core @capacitor/cli
+          npx cap init
+          npm install @capacitor/angular
+          ng add @capacitor/angular
+
+      - name: "Build Angular app"
+        script: |
+          ng build --configuration=production
+
+      - name: "Add Android platform"
+        script: |
+          rm -rf ./android
+          npm i @capacitor/android
+          npx cap add android
+
+      - name: "Update minSdkVersion"
+        script: |
+          echo "Updating minSdkVersion to 26 in variables.gradle..."
+          sed -i.bak 's/minSdkVersion = [0-9]*/minSdkVersion = 26/' android/variables.gradle
+          cat android/variables.gradle
+      - name: "copy Capacitor with Android platform"
+        script: |
+          npx cap copy android
+
+      - name: "Build Android APK"
+        script: |
+          cd android
+          ./gradlew clean
+          ./gradlew assembleDebug
+          DEBUG_APK_PATH=$(find app/build/outputs -name "app-debug.apk" | head -1)
+          echo "Built debug APK located at $DEBUG_APK_PATH"
