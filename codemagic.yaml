@@ -19,6 +19,10 @@ workflows:
       - name: "Build Angular app"
         script: |
           ng build --configuration=production
+      
+      - name: "list the files in dist"
+        scrript: |
+          ls -al dist
 
       - name: "Add Android platform"
         script: |
