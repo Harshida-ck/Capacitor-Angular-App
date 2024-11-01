@@ -30,6 +30,9 @@ workflows:
           npm i @capacitor/android
           npx cap add android
 
+      - name: "Print minSdkVersion"
+        script: |
+          cat android/variables.gradle
       - name: "copy Capacitor with Android platform"
         script: |
           npx cap copy android
