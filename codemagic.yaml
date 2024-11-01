@@ -22,7 +22,7 @@ workflows:
       
       - name: "list the files in dist"
         script: |
-          ls -al dist
+          ls -al dist/capacitor-angular-app
 
       - name: "Add Android platform"
         script: |
