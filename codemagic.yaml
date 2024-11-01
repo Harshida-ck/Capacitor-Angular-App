@@ -21,7 +21,7 @@ workflows:
           ng build --configuration=production
       
       - name: "list the files in dist"
-        scrript: |
+        script: |
           ls -al dist
 
       - name: "Add Android platform"
