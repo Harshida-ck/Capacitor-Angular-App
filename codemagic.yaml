@@ -32,6 +32,8 @@ workflows:
 
       - name: "Print minSdkVersion"
         script: |
+          echo "Updating minSdkVersion to 26 in variables.gradle..."
+          sed -i.bak 's/minSdkVersion = [0-9]*/minSdkVersion = 26/' android/variables.gradle
           cat android/variables.gradle
       - name: "copy Capacitor with Android platform"
         script: |
